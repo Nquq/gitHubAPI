@@ -55,9 +55,10 @@ function validInput(searchList) {
 		notFoundElement.classList.add('not-found');
 		notFoundElement.innerHTML = 'Ничего не найдено!';
 		searchResult.append(notFoundElement);
-	} else {
+	} else if (searchList.length) {
 		document.querySelector('.not-found').remove();
 	}
+	return;
 }
 
 searchButton.addEventListener('click', async () => {
