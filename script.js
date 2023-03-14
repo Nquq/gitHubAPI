@@ -56,7 +56,7 @@ function validInput(searchList) {
 	if (!searchList.length) {
 		searchResult.append(notFoundElement);
 	} else {
-		searchResult.children[0].remove();
+		notFoundElement.remove();
 	}
 }
 
