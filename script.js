@@ -1,3 +1,5 @@
+'use strict';
+
 const search = document.querySelector('.search');
 const searchButton = document.querySelector('.send-button');
 const searchResult = document.querySelector('.search-result');
@@ -42,32 +44,33 @@ function createListOfRepositories(title, url, description, starsCount, language)
 
 function clearSearchArea() {
 	const searchItems = document.querySelectorAll('.search-item');
+	const deleteItem = document.querySelector('.not-found');
 	if (searchItems) {
 		searchItems.forEach(item => {
 			item.remove();
 		});
-	} else return;
+	}
+	if (deleteItem) {
+		deleteItem.remove();
+	}
 }
 
 function validInput(searchList) {
-	if (!searchList.length) {
-		let notFoundElement = document.createElement('div');
-		notFoundElement.classList.add('not-found');
-		notFoundElement.innerHTML = 'Ничего не найдено!';
-		searchResult.append(notFoundElement);
-	} else if (searchList.length) {
-		document.querySelector('.not-found').remove();
-	}
-	return;
+	let notFoundElement = document.createElement('div');
+	notFoundElement.classList.add('not-found');
+	notFoundElement.innerHTML = 'Ничего не найдено!';
+	searchResult.append(notFoundElement);
 }
 
 searchButton.addEventListener('click', async () => {
-	clearSearchArea();
-
 	let searchValue = search.value;
 	const searchList = await fetchingRepositories(searchValue);
 
-	validInput(searchList);
+	clearSearchArea();
+
+	if (!searchList.length) {
+		validInput(searchList);
+	}
 
 	searchList.forEach(item => {
 		createListOfRepositories(item.fullName, item.url, item.desc, item.stars, item.language);
@@ -76,13 +79,14 @@ searchButton.addEventListener('click', async () => {
 
 search.addEventListener('keydown', async event => {
 	if (event.key === 'Enter') {
-		clearSearchArea();
-
 		let searchValue = search.value;
 		const searchList = await fetchingRepositories(searchValue);
 
-		validInput(searchList);
+		clearSearchArea();
 
+		if (!searchList.length) {
+			validInput(searchList);
+		}
 		searchList.forEach(item => {
 			createListOfRepositories(item.fullName, item.url, item.desc, item.stars, item.language);
 		});
