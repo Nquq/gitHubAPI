@@ -50,13 +50,13 @@ function clearSearchArea() {
 }
 
 function validInput(searchList) {
-	let notFoundElement = document.createElement('div');
-	notFoundElement.classList.add('not-found');
-	notFoundElement.innerHTML = 'Ничего не найдено!';
 	if (!searchList.length) {
+		let notFoundElement = document.createElement('div');
+		notFoundElement.classList.add('not-found');
+		notFoundElement.innerHTML = 'Ничего не найдено!';
 		searchResult.append(notFoundElement);
 	} else {
-		notFoundElement.remove();
+		document.querySelector('.not-found').remove();
 	}
 }
 
